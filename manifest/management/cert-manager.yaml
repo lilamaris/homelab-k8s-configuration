@@ -1,0 +1,38 @@
+
+# Cluster Issuer (Staging)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: lilamaris-issuer-staging
+spec:
+  acme:
+    email: lilamaris.dev@gmail.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: lilamaris-issure-staging-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-api-token-secret
+            key: api-token
+---
+
+# Cluster Issuer (Prod)
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: lilamaris-issuer-prod
+  namespace: cert-manager
+spec:
+  acme:
+    email: lilamaris.dev@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: lilamaris-issuer-prod-account-key
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-api-token-secret
+            key: api-token

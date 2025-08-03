@@ -1,0 +1,21 @@
+kubeProxyReplacement: true
+
+externalIPs:
+  enabled: true
+
+loadBalancerIPs:
+  enabled: true
+
+l2announcements:
+  enabled: true
+
+k8sClientRateLimit:
+  qps: 50
+  burst: 200
+
+ingressController:
+  enabled: true
+  loadbalancerMode: "dedicated"
+
+k8sServiceHost: "192.168.0.100"
+k8sServicePort: "6443"
