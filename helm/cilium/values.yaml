@@ -15,7 +15,7 @@ k8sClientRateLimit:
 
 ingressController:
   enabled: true
-  loadbalancerMode: "dedicated"
+  loadbalancerMode: "shared"
 
 k8sServiceHost: "192.168.0.100"
 k8sServicePort: "6443"
