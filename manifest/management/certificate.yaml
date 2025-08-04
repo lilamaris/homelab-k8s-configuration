@@ -1,0 +1,13 @@
+# Certificate for wildcard
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lilamaris-wildcard-cert
+spec:
+  dnsNames:
+  - lilamaris.kr
+  - '*.lilamaris.kr'
+  issuerRef:
+    name: lilamaris-issuer
+    kind: ClusterIssuer
+  secretName: lilamaris-wildcard-tls
