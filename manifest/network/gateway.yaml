@@ -10,7 +10,7 @@ spec:
     port: 80
     protocol: HTTP
     hostname: "*.lilamaris.kr"
-    allowRoutes:
+    allowedRoutes:
       kinds:
         - kind: HTTPRoute
       namespaces:
@@ -32,9 +32,3 @@ spec:
 ---
 
 # Redirect HTTP to HTTPS
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: redirect-http-to-https
-  namespace: lil-network
-
