@@ -1,44 +1,32 @@
-# oauth route
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
+# Authentik Outpost
+apiVersion: goauthentik.io/v1alpha1
+kind: Outpost
 metadata:
-  name: lil-oauth-httproute
-  namespace: lil-network
+  name: authentik-outpose
+  namespace: lcntwk
 spec:
-  parentRefs:
-  - name: default-gateway
-    kind: Gateway
-  hostnames:
-  - oauth.lilamaris.kr
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /public
-    backendRefs:
-      - name: oauth2-proxy-public
-        port: 4180
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /private
-    backendRefs:
-      - name: oauth2-proxy-private
-        port: 4180
+  type: proxy
 
+  kubernetes:
+    enabled: true
+    httproute_parent_refs:
+    - name: default-gateway
+      namespace: lcntwk
+  protocol: http
+  service:
+    url: http://authentik-server.lcntwk.svc.cluster.local:9000
+
+  
 ---
-
-# Admin service route
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: lil-admin-httproute
-  namespace: lil-admin
+  name: private-httproute
+  namespace: lcntwk
 spec:
   parentRefs:
   - name: default-gateway
     kind: Gateway
-    namespace: lil-network
   hostnames:
   - admin.lilamaris.kr
   rules:
@@ -47,42 +35,7 @@ spec:
         type: PathPrefix
         value: /monitor
     backendRefs:
-      - name: oauth2-proxy-private
-        namespace: lil-network
-        port: 4180
+      - name: prometheus-grafana
+        namespace: lcmntr
+        port: 80
 
----
-
-# ReferenceGrant by lil-network
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
-metadata:
-  name: reference-grant-from-lil-network-to-lil-admin
-  namespace: lil-network
-spec:
-  from:
-  - group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    namespace: lil-admin
-  to:
-  - group: ""
-    kind: Service
-
----
-
-# ReferenceGrant by lil-monitor
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
-metadata:
-  name: reference-grant-from-lil-dashboard-to-lil-admin
-  namespace: lil-monitor
-spec:
-  from:
-  - group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    namespace: lil-admin
-  to:
-  - group: ""
-    kind: Service
-
----

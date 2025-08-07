@@ -1,0 +1,16 @@
+# ReferenceGrant lcmntr to lcntwk
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: refgrant-lsnet
+  namespace: lcmntr
+spec:
+  from:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    namespace: lcntwk
+  to:
+  - group: ""
+    kind: Service
+
+---
