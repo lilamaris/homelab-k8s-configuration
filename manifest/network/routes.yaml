@@ -1,4 +1,34 @@
+# oauth route
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: lil-oauth-httproute
+  namespace: lil-network
+spec:
+  parentRefs:
+  - name: default-gateway
+    kind: Gateway
+  hostnames:
+  - oauth.lilamaris.kr
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /public
+    backendRefs:
+      - name: oauth2-proxy-public
+        port: 4180
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /private
+    backendRefs:
+      - name: oauth2-proxy-private
+        port: 4180
 
+---
+
+# Admin service route
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -15,28 +45,20 @@ spec:
   - matches:
     - path:
         type: PathPrefix
-        value: /
-    backendRefs:
-    - name: kubernetes-dashboard-kong-proxy
-      namespace: lil-dashboard
-      port: 80
-  - matches:
-    - path:
-        type: PathPrefix
         value: /monitor
     backendRefs:
-    - name: prometheus-grafana
-      namespace: lil-monitor
-      port: 80
+      - name: oauth2-proxy-private
+        namespace: lil-network
+        port: 4180
 
 ---
 
-# ReferenceGrant by lil-monitor
+# ReferenceGrant by lil-network
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
-  name: reference-grant-from-lil-dashboard-to-lil-admin
-  namespace: lil-monitor
+  name: reference-grant-from-lil-network-to-lil-admin
+  namespace: lil-network
 spec:
   from:
   - group: gateway.networking.k8s.io
@@ -48,12 +70,12 @@ spec:
 
 ---
 
-# ReferenceGrant by lil-dashboard
+# ReferenceGrant by lil-monitor
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: reference-grant-from-lil-dashboard-to-lil-admin
-  namespace: lil-dashboard
+  namespace: lil-monitor
 spec:
   from:
   - group: gateway.networking.k8s.io
