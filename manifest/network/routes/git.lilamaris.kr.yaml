@@ -1,11 +1,11 @@
 # HTTP Route for git.lilamaris.kr
 # sub-path list
-#   root: gitea-http.lccicd.svc.cluster.local:3000 - gitea version control web application
+#   root: gitea-http.ldevops.svc.cluster.local:3000 - gitea version control web application
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: git
-  namespace: lcntwk
+  namespace: lnetcore
 spec:
   parentRefs:
   - name: default-gateway
@@ -19,7 +19,7 @@ spec:
         value: /
     backendRefs:
       - name: gitea-http
-        namespace: lccicd
+        namespace: ldevops
         port: 3000
 
 ---

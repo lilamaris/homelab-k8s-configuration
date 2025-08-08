@@ -3,7 +3,7 @@ apiVersion: goauthentik.io/v1alpha1
 kind: Outpost
 metadata:
   name: authentik-outpose
-  namespace: lcntwk
+  namespace: lnetstack
 spec:
   type: proxy
 
@@ -11,7 +11,7 @@ spec:
     enabled: true
     httproute_parent_refs:
     - name: default-gateway
-      namespace: lcntwk
+      namespace: lnetcore
   protocol: http
   service:
     url: http://authentik-server.lcntwk.svc.cluster.local:9000

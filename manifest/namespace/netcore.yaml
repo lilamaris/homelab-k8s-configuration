@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lnetcore
+  labels:
+    role: lnetcore
+  annotations:
+    description: >
+      Core networking namespace.
+      Contains:
+        - K8s Gateway API objects (Gateway, HTTPRoute, TLSRoute, etc)
+        - Cilium resources (CiliumNetworkPolicy, CiliumClusterWideNetworkPolicy, L2Announcement, etc)
+

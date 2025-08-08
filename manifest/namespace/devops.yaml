@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ldevops
+  labels:
+    role: ldevops
+  annotations:
+    description: >
+      Developer and operations tools namespace.
+      - Gitea (SCM)
+      - CI/CD 
+

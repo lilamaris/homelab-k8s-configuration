@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lmonitor
+  labels:
+    role: lmonitor
+  annotations:
+    description: >
+      Monitoring namespace.
+      Contains:
+        - Prometheus stack (Server, Alertmanager, Pushgateway)
+        - Grafana, Grafana Agent, Thanos
+        - Exporters (node-exporter, cilium-metrics, kube-state-metrics)
