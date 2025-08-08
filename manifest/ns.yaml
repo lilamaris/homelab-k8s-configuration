@@ -12,6 +12,17 @@ metadata:
 
 ---
 
+# Namespace for network integration stack
+# This includes settings for application services integrated with network resources.
+# such as robot detection and block
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lcntwkst
+  labels:
+    name: lcntwkst
+---
+
 # Namespace for monitoring
 # This includes settings for monitoring services deployed in the cluster and available resource in the cluster
 apiVersion: v1
