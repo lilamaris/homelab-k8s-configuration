@@ -11,3 +11,17 @@ metadata:
   name: lcmntr
   labels:
     name: lcmntr
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lccicd
+  labels:
+    name: lccicd
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lcstrg
+  labels:
+    name: lcstrg
