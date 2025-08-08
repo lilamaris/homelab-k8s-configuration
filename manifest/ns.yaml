@@ -1,24 +1,40 @@
+# Namespace for network
+# This includes settings for managing networks.
+# such as:
+#   K8S Gateway APIs: Gateway, HTTPRoute, TLSRoute, etc.
+#   Cilium: CiliumNetworkPolicy, CiliumClusterwideNetworkPolicy, L2Announcement, etc.
 apiVersion: v1
 kind: Namespace
 metadata:
   name: lcntwk
   labels:
     name: lcntwk
+
 ---
+
+# Namespace for monitoring
+# This includes settings for monitoring services deployed in the cluster and available resource in the cluster
 apiVersion: v1
 kind: Namespace
 metadata:
   name: lcmntr
   labels:
     name: lcmntr
+      
 ---
+
+# Namespace for Version control and CI/CD
+# This includes settings for version control and CI/CD
 apiVersion: v1
 kind: Namespace
 metadata:
   name: lccicd
   labels:
     name: lccicd
+
 ---
+
+# Namespace for storage
 apiVersion: v1
 kind: Namespace
 metadata:
