@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lautomation
+  labels:
+    role: lautomation
+  annotations:
+    description: >
+      Automation namespace.
+      - Ollama
+      - n8n 
+
