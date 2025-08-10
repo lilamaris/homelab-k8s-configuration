@@ -2,7 +2,7 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: refgrant-svc-to-lnetcore
-  namespace: lmonitor
+  namespace: ldevops
 spec:
   from:
   - group: gateway.networking.k8s.io

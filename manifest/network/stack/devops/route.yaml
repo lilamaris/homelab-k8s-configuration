@@ -8,26 +8,17 @@ metadata:
   namespace: lnetcore
 spec:
   parentRefs:
-  - name: default-gateway
+  - name: public-gateway
     kind: Gateway
   hostnames:
   - git.lilamaris.kr
-  filters:
-    - type: ExternalAuth
-      externalRef:
-        group: gateway.networking.k8s.io
-        kind: HTTPAuthServer
-        name: anubis
-        namespace: lnetstacK
   rules:
   - matches:
     - path:
         type: PathPrefix
         value: /
     backendRefs:
-      - name: gitea-http
+      - name: ext-auth
         namespace: ldevops
-        port: 3000
-
----
+        port: 8080
 

@@ -2,8 +2,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ext-auth
-  namespace: lmonitor
+  name: anubis
+  namespace: ldevops
 spec:
   selector:
     matchLabels:
@@ -33,9 +33,9 @@ spec:
           - name: SERVE_ROBOTS_TXT
             value: "true"
           - name: TARGET
-            value: "http://prometheus-grafana.lmonitor.svc.cluster.local:80"
+            value: "http://gitea-http.ldevops.svc.cluster.local:3000"
           - name: REDIRECT_DOMAINS
-            value: "monitor.lilamaris.kr"
+            value: "git.lilamaris.kr"
           - name: COOKIE_DYNAMIC_DOMAIN
             value: "true"
           - name: OG_PASSTHROUGH"
@@ -59,19 +59,3 @@ spec:
               - ALL
           seccompProfile:
             type: RuntimeDefault
-
----
-
-# Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: anubis
-  namespace: lmonitor
-spec:
-  selector:
-    app: anubis
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
