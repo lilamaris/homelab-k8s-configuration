@@ -1,0 +1,53 @@
+# SecurityPolicy for admin.lilamaris.kr
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: ext-auth-admin-route
+  namespace: lmonitor
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: admin-route
+  extAuth: 
+    http:
+      backendRefs:
+        - name: ext-auth
+          namespace: lmonitor
+          port: 8080
+    headersToExtAuth:
+      - User-Agent
+      - X-Forwarded-For
+      - X-Forwarded-Host
+      - X-Forwarded-Proto
+      - X-Real-Ip
+      - X-Request-Id
+      - Accept-Language
+        
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: enable-early-headers
+  namespace: lmonitor
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: public-gateway
+  clientIPDetection:
+    xForwardedFor:
+      numTrustedHops: 1
+  headers:
+    earlyRequestHeaders:
+      add:
+        - name: X-Real-IP
+          value: "%REQ(CF-Connecting-IP)%"
+        - name: X-Forwarded-Host
+          value: "%REQ(:authority)%"
+        - name: X-Forwarded-Proto
+          value: "%REQ(:scheme)%"
+        - name: User-Agent
+          value: "%REQ(user-agent)%"
+        - name: X-Request-Id
+          value: "%REQ(x-request-id)%"

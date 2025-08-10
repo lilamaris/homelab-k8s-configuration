@@ -12,6 +12,13 @@ spec:
     kind: Gateway
   hostnames:
   - git.lilamaris.kr
+  filters:
+    - type: ExternalAuth
+      externalRef:
+        group: gateway.networking.k8s.io
+        kind: HTTPAuthServer
+        name: anubis
+        namespace: lnetstacK
   rules:
   - matches:
     - path:

@@ -1,0 +1,25 @@
+# Deploy
+apiVersion: app/v1
+kind: Deploy
+metadata:
+  name: test-nginx-app
+  namespace: lappstack
+spec:
+  selector:
+    matchLabels:
+      app: testnginx
+  replicas: 3
+  template:
+    metadata:
+      app: label;
+  
+---
+
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-nginx-application
+  namespace: lappstack
+spec:
+
