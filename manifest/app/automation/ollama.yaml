@@ -1,0 +1,59 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+  namespace: lautomation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      runtimeClassName: nvidia
+      containers:
+      - name: ollama
+        image: ollama/ollama:latest
+        volumeMounts:
+          - mountPath: /root/.ollama
+            name: ollama-storage
+        ports:
+        - name: http
+          containerPort: 11434
+          protocol: TCP
+        env:
+        - name: PRELOAD_MODELS
+          value: "llama3.1"
+        - name: OLLAMA_KEEP_ALIVE
+          value: "12h"
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "for model in $PRELOAD_MODELS; do ollama run $model \"hi?\"; done"]
+      resources:
+        limits:
+          nvidia.com/gpu: "1"
+      volumes:
+      - hostPath:
+          path: /opt/ollama
+          type: DirectoryOrCreate
+        name: ollama-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama
+  namespace: lautomation
+spec:
+  type: ClusterIP
+  selector:
+    app: ollama
+  ports:
+  - port: 80
+    name: http
+    targetPort: http
+    protocol: TCP
