@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ldatabase
+  labels:
+    role: ldatabase
+  annotations:
+    description: >
+      Database namespace.
+      Contains:
+        - Cloud Native PostgreSQL
