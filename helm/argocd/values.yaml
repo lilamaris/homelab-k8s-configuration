@@ -1,0 +1,6 @@
+global:
+  domain: argocd.lilamaris.kr
+
+configs:
+  params:
+    server.insecure: true

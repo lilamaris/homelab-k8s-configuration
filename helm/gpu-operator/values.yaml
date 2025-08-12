@@ -1,0 +1,10 @@
+# 이미 설치되어 있기 때문에 false로 수정
+driver:
+  enabled: false
+# 그래픽카드가 a100, h100 등만 사용가능
+migManager:
+  enabled: false
+vgpuDeviceManager:
+  enabled: false
+vfioManager:
+  enabled: false
