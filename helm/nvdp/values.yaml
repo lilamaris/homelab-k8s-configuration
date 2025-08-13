@@ -3,6 +3,8 @@ gfd:
 
 midStrategy: "none"
 deviceDiscoveryStrategy: "nvml"
+deviceListStrategy: "cri-cdi"
+deviceIDStrategy: "uuid"
 runtimeClassName: "nvidia"
 
 tolerations:
