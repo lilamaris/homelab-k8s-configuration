@@ -10,7 +10,6 @@ spec:
   parentRefs:
   - name: public-gateway
     kind: Gateway
-    sectionName: https
   hostnames:
   - monitor.lilamaris.kr
   rules:
