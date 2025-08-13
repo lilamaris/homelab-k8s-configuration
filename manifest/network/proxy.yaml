@@ -1,8 +1,8 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
-  name: default
-  namespace: envoy-gateway
+  name: pg-proxy
+  namespace: lnetcore
 spec:
   provider:
     type: Kubernetes
@@ -10,3 +10,28 @@ spec:
       envoyService:
         type: LoadBalancer
         externalTrafficPolicy: Local
+
+  logging:
+    # 컴포넌트별 로그 레벨 (필요 시 조절)
+    level:
+      default: info
+  telemetry:
+    accessLog:
+      settings:
+        - type: Route        # Route 로그를 활성화(원하지 않으면 생략 가능)
+          format:
+            type: Text
+            text: |
+
+
+
+              -------------- STARTING LOG --------------
+              [%START_TIME%] "%REQ(:METHOD)% %REQ(:PATH)% %PROTOCOL%"
+              from=%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%
+              xff="%REQ(X-FORWARDED-FOR)%" xreal="%REQ(X-REAL-IP)%"
+              cfip="%REQ(CF-Connecting-IP)%" ua="%REQ(USER-AGENT)%"
+              -> %RESPONSE_CODE% %RESPONSE_FLAGS%
+          sinks:
+            - type: File
+              file:
+                path: /dev/stdout

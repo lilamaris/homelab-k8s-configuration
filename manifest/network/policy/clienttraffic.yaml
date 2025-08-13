@@ -1,20 +1,23 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
-  name: client-ip-detection
-  namespace: envoy-gateway
+  name: client-ip-headers
+  namespace: lnetcore
 spec:
-  targetRef:
+  targetRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: lnetcore
+      name: public-gateway
+      sectionName: https
   clientIPDetection:
     xForwardedFor:
       numTrustedHops: 1
   headers:
     earlyRequestHeaders:
-      add:
-        - name: x-forwarded-for
-          value: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
-        - name: x-real-ip
-          value: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
+      set:
+        - name: X-Real-IP
+          value: "%REQ(CF-Connecting-IP)%"
+        - name: X-Forwarded-Proto
+          value: "%REQ(:scheme)%"
+        - name: X-Forwarded-Host
+          value: "%REQ(:authority)%"
