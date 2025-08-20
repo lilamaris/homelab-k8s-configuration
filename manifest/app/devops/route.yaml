@@ -22,3 +22,20 @@ spec:
       - name: anubis
         namespace: ldevops
         port: 8080
+---
+# TCP Route for git.lilamaris.kr
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: git-ssh
+  namespace: lnetcore
+spec:
+  parentRefs:
+  - name: public-gateway
+    kind: Gateway
+    sectionName: ssh
+  rules:
+    - backendRefs:
+        - name: gitea-ssh
+          namespace: ldevops
+          port: 22
