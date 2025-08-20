@@ -1,5 +1,15 @@
-# persistence:
-#  enabled: true
-#  storageClass: local-path
-#  accessMode: ReadWriteOnce
-#  size: 20Gi
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+gitea:
+  config:
+    log:
+      LEVEL: Debug
+    server:
+      ROOT_URL: "https://git.lilamaris.kr/"
+      DOMAIN: "git.lilamaris.kr"
+      SSH_DOMAIN: "git.lilamaris.kr"
+    repository:
+      ROOT: "/data/git/gitea-repositories"
